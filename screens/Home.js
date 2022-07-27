@@ -1,15 +1,23 @@
 /* eslint-disable */
 
 import React, {useEffect, useState} from 'react';
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import {
+  Dimensions,
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {SliderBox} from 'react-native-image-slider-box';
 import Error from '../components/Error';
-import {getUpcomingMovies} from '../services/request';
+import {getPopularMovies, getUpcomingMovies} from '../services/request';
 
 const dimensions = Dimensions.get('screen');
 
 const Home = () => {
   const [movieImages, setmovieImages] = useState([]);
+  const [popularMovies, setPopularMovies] = useState([]);
   const [errorStatus, setErrorStatus] = useState(null);
 
   useEffect(() => {
@@ -26,21 +34,36 @@ const Home = () => {
       .catch((err) => {
         setErrorStatus(err.message);
       });
+
+    getPopularMovies()
+      .then((movies) => {
+        setPopularMovies(movies);
+      })
+      .catch((err) => {
+        setErrorStatus(err.message);
+      });
   }, []);
 
   return (
     <>
       {!errorStatus && (
-        <View style={styles.container}>
-          <SliderBox
-            images={movieImages}
-            autoplay={true}
-            circleLoop={true}
-            sliderBoxHeight={dimensions.height / 1.5}
-            dotStyle={styles.dotStyle}
-          />
-          <Text style={styles.title}>Hello, there!</Text>
-        </View>
+        <ScrollView>
+          <View style={styles.container}>
+            <SliderBox
+              images={movieImages}
+              autoplay={true}
+              circleLoop={true}
+              sliderBoxHeight={dimensions.height / 1.5}
+              dotStyle={styles.dotStyle}
+            />
+            <View style={styles.container}>
+              <FlatList
+                data={popularMovies}
+                horizontal={true}
+                renderItem={({item}) => <Text>{item.title}</Text>}></FlatList>
+            </View>
+          </View>
+        </ScrollView>
       )}
       {errorStatus && <Error errorMessage={errorStatus} />}
     </>
