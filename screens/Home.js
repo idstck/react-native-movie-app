@@ -1,15 +1,17 @@
 /* eslint-disable */
 
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import {SliderBox} from 'react-native-image-slider-box';
-import {getPopularMovies} from '../services/request';
+import {getUpcomingMovies} from '../services/request';
+
+const dimensions = Dimensions.get('screen');
 
 const Home = () => {
   const [movieImages, setmovieImages] = useState([]);
 
   useEffect(() => {
-    getPopularMovies()
+    getUpcomingMovies()
       .then((movies) => {
         let images = [];
         for (let movie = 0; movie < movies.length; movie++) {
@@ -27,7 +29,13 @@ const Home = () => {
   return (
     <>
       <View style={styles.container}>
-        <SliderBox images={movieImages} />
+        <SliderBox
+          images={movieImages}
+          autoplay={true}
+          circleLoop={true}
+          sliderBoxHeight={dimensions.height / 1.5}
+          dotStyle={styles.dotStyle}
+        />
         <Text style={styles.title}>Hello, there!</Text>
       </View>
     </>
@@ -42,6 +50,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
+  },
+  dotStyle: {
+    height: 0,
   },
 });
 
