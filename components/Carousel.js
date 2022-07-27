@@ -2,6 +2,7 @@
 
 import React from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
+import CardMovie from './CardMovie';
 
 const Carousel = (props) => {
   const {title, content} = props;
@@ -14,7 +15,7 @@ const Carousel = (props) => {
         <FlatList
           data={content}
           horizontal={true}
-          renderItem={({item}) => <Text>{item.title}</Text>}></FlatList>
+          renderItem={({item}) => <CardMovie movie={item} />}></FlatList>
       </View>
     </View>
   );
