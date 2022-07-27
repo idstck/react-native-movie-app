@@ -1,15 +1,9 @@
 /* eslint-disable */
 
 import React, {useEffect, useState} from 'react';
-import {
-  Dimensions,
-  FlatList,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Dimensions, ScrollView, StyleSheet, View} from 'react-native';
 import {SliderBox} from 'react-native-image-slider-box';
+import Carousel from '../components/Carousel';
 import Error from '../components/Error';
 import {getPopularMovies, getUpcomingMovies} from '../services/request';
 
@@ -48,21 +42,14 @@ const Home = () => {
     <>
       {!errorStatus && (
         <ScrollView>
-          <View style={styles.container}>
-            <SliderBox
-              images={movieImages}
-              autoplay={true}
-              circleLoop={true}
-              sliderBoxHeight={dimensions.height / 1.5}
-              dotStyle={styles.dotStyle}
-            />
-            <View style={styles.container}>
-              <FlatList
-                data={popularMovies}
-                horizontal={true}
-                renderItem={({item}) => <Text>{item.title}</Text>}></FlatList>
-            </View>
-          </View>
+          <SliderBox
+            images={movieImages}
+            autoplay={true}
+            circleLoop={true}
+            sliderBoxHeight={dimensions.height / 1.5}
+            dotStyle={styles.dotStyle}
+          />
+          <Carousel title={'Popular Movies'} content={popularMovies} />
         </ScrollView>
       )}
       {errorStatus && <Error errorMessage={errorStatus} />}
