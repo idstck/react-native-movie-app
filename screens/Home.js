@@ -1,7 +1,13 @@
 /* eslint-disable */
 
 import React, {useEffect, useState} from 'react';
-import {Dimensions, ScrollView, StyleSheet, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import {SliderBox} from 'react-native-image-slider-box';
 import Carousel from '../components/Carousel';
 import Error from '../components/Error';
@@ -13,34 +19,35 @@ const Home = () => {
   const [movieImages, setmovieImages] = useState([]);
   const [popularMovies, setPopularMovies] = useState([]);
   const [errorStatus, setErrorStatus] = useState(null);
+  const [loaded, setLoaded] = useState(false);
+
+  const getMovieData = () => {
+    return Promise.all([getUpcomingMovies(), getPopularMovies()]);
+  };
 
   useEffect(() => {
-    getUpcomingMovies()
-      .then((movies) => {
+    getMovieData()
+      .then(([upcomingMovies, popularMovies]) => {
         let images = [];
-        for (let movie = 0; movie < movies.length; movie++) {
+        for (let movie = 0; movie < upcomingMovies.length; movie++) {
           images.push(
-            `https://image.tmdb.org/t/p/w500${movies[movie]['poster_path']}`,
+            `https://image.tmdb.org/t/p/w500${upcomingMovies[movie]['poster_path']}`,
           );
         }
         setmovieImages(images);
+        setPopularMovies(popularMovies);
       })
       .catch((err) => {
         setErrorStatus(err.message);
-      });
-
-    getPopularMovies()
-      .then((movies) => {
-        setPopularMovies(movies);
       })
-      .catch((err) => {
-        setErrorStatus(err.message);
+      .finally(() => {
+        setLoaded(true);
       });
   }, []);
 
   return (
     <>
-      {!errorStatus && (
+      {!errorStatus && loaded && (
         <ScrollView>
           <SliderBox
             images={movieImages}
@@ -51,6 +58,13 @@ const Home = () => {
           />
           <Carousel title={'Popular Movies'} content={popularMovies} />
         </ScrollView>
+      )}
+      {!loaded && (
+        <ActivityIndicator
+          size={'large'}
+          style={styles.container}
+          color={'#999999'}
+        />
       )}
       {errorStatus && <Error errorMessage={errorStatus} />}
     </>
