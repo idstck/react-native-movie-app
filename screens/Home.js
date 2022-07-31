@@ -15,7 +15,8 @@ import {getPopularMovies, getUpcomingMovies} from '../services/request';
 
 const dimensions = Dimensions.get('screen');
 
-const Home = () => {
+const Home = (props) => {
+  const {navigation} = props;
   const [movieImages, setmovieImages] = useState([]);
   const [popularMovies, setPopularMovies] = useState([]);
   const [errorStatus, setErrorStatus] = useState(null);
@@ -56,7 +57,11 @@ const Home = () => {
             sliderBoxHeight={dimensions.height / 1.5}
             dotStyle={styles.dotStyle}
           />
-          <Carousel title={'Popular Movies'} content={popularMovies} />
+          <Carousel
+            navigation={navigation}
+            title={'Popular Movies'}
+            content={popularMovies}
+          />
         </ScrollView>
       )}
       {!loaded && (

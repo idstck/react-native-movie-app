@@ -6,10 +6,12 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 const placeholderMovie = require('../assets/images/placeholder.png');
 
 const CardMovie = (props) => {
-  const {movie} = props;
+  const {movie, navigation} = props;
   return (
     <View>
-      <TouchableOpacity style={styles.content}>
+      <TouchableOpacity
+        style={styles.content}
+        onPress={() => navigation.navigate('Movie')}>
         <Image
           style={styles.image}
           source={

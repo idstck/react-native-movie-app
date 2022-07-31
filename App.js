@@ -11,6 +11,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import Home from './screens/Home';
+import Movie from './screens/Movie';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Movie" component={Movie} />
       </Stack.Navigator>
     </NavigationContainer>
   );
