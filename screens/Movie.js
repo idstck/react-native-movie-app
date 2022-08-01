@@ -1,9 +1,20 @@
 /* eslint-disable */
 
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, StyleSheet, Text} from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import Error from '../components/Error';
 import {getMovieDetail} from '../services/request';
+
+const placeholderMovie = require('../assets/images/placeholder.png');
+const dimensions = Dimensions.get('screen');
 
 const Movie = ({route}) => {
   const {movieId} = route.params;
@@ -25,7 +36,31 @@ const Movie = ({route}) => {
 
   return (
     <>
-      {!errorStatus && loaded && <Text>{JSON.stringify(movie)}</Text>}
+      {!errorStatus && loaded && (
+        <ScrollView>
+          <Image
+            style={styles.image}
+            source={
+              movie.poster_path
+                ? {
+                    uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+                  }
+                : placeholderMovie
+            }
+          />
+          <View style={styles.container}>
+            <Text style={styles.movieTitle}>{movie.title}</Text>
+            <View style={styles.genreContainer}>
+              {movie.genres.map((genre, index) => (
+                <Text key={index} style={styles.genreTitle}>
+                  {genre.name}
+                </Text>
+              ))}
+            </View>
+            <Text>{movie.overview}</Text>
+          </View>
+        </ScrollView>
+      )}
       {!loaded && (
         <ActivityIndicator
           size={'large'}
@@ -43,6 +78,24 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  image: {
+    height: dimensions.height / 2.5,
+  },
+  movieTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  genreContainer: {
+    flexDirection: 'row',
+    alignContent: 'center',
+    marginBottom: 20,
+  },
+  genreTitle: {
+    marginHorizontal: 10,
+    fontWeight: 'bold',
   },
 });
 
