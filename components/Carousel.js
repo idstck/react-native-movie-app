@@ -17,7 +17,8 @@ const Carousel = (props) => {
           horizontal={true}
           renderItem={({item}) => (
             <CardMovie movie={item} navigation={navigation} />
-          )}></FlatList>
+          )}
+          keyExtractor={(item, index) => index.toString()}></FlatList>
       </View>
     </View>
   );

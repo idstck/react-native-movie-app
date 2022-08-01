@@ -11,7 +11,7 @@ const CardMovie = (props) => {
     <View>
       <TouchableOpacity
         style={styles.content}
-        onPress={() => navigation.navigate('Movie')}>
+        onPress={() => navigation.navigate('Movie', {movieId: movie.id})}>
         <Image
           style={styles.image}
           source={
