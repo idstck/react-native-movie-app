@@ -10,6 +10,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import StarRating from 'react-native-star-rating';
 import Error from '../components/Error';
 import {getMovieDetail} from '../services/request';
 
@@ -57,6 +58,16 @@ const Movie = ({route}) => {
                 </Text>
               ))}
             </View>
+            <View style={styles.starsContainer}>
+              <StarRating
+                starSize={35}
+                fullStarColor={'gold'}
+                halfStarColor={'gold'}
+                disabled={false}
+                maxStars={5}
+                rating={movie.vote_average / 2}
+              />
+            </View>
             <Text>{movie.overview}</Text>
           </View>
         </ScrollView>
@@ -82,6 +93,12 @@ const styles = StyleSheet.create({
   image: {
     height: dimensions.height / 2.5,
   },
+  starsContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 20,
+  },
   movieTitle: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -91,7 +108,6 @@ const styles = StyleSheet.create({
   genreContainer: {
     flexDirection: 'row',
     alignContent: 'center',
-    marginBottom: 20,
   },
   genreTitle: {
     marginHorizontal: 10,
