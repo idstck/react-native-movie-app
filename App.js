@@ -12,6 +12,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import Home from './screens/Home';
 import Movie from './screens/Movie';
+import Trailer from './screens/Trailer';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,7 @@ const App = () => {
       <Stack.Navigator>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Movie" component={Movie} />
+        <Stack.Screen name="Trailer" component={Trailer} />
       </Stack.Navigator>
     </NavigationContainer>
   );

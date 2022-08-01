@@ -19,11 +19,15 @@ import PlayButton from '../components/PlayButton';
 const placeholderMovie = require('../assets/images/placeholder.png');
 const dimensions = Dimensions.get('screen');
 
-const Movie = ({route}) => {
+const Movie = ({route, navigation}) => {
   const {movieId} = route.params;
   const [movie, setMovie] = useState({});
   const [errorStatus, setErrorStatus] = useState(null);
   const [loaded, setLoaded] = useState(false);
+
+  const trailerShown = () => {
+    navigation.navigate('Trailer');
+  };
 
   useEffect(() => {
     getMovieDetail(movieId)
@@ -53,7 +57,7 @@ const Movie = ({route}) => {
           />
           <View style={styles.container}>
             <View style={styles.playButton} opacity={0.5}>
-              <PlayButton />
+              <PlayButton handlePress={trailerShown} />
             </View>
             <Text style={styles.movieTitle}>{movie.title}</Text>
             <View style={styles.genreContainer}>
